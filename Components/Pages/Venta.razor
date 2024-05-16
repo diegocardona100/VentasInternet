@@ -1,0 +1,65 @@
+﻿@page "/venta"
+
+
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+
+
+<h3>Venta</h3>
+<EditForm Model="@producto" OnValidSubmit="@Guardar">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="Nombre">Nombre del Producto</label>
+        <InputText id="Nombre" @bind-Value="producto.nombre" class="form-control" />
+        <ValidationMessage For="() => producto.nombre" />
+    </div>
+    <div class="form-group">
+        <label for="Apellido">Código del producto</label>
+        <InputText id="Codigo" @bind-Value="producto.codigo" class="form-control" />
+        <ValidationMessage For="() => producto.codigo" />
+    </div>
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</EditForm>
+
+
+@code {
+
+    private Productos producto = new Productos();
+    List<Productos> productos = new Productos();
+
+
+
+
+    
+    protected async Task Guardar()
+    {
+        productos.Add(producto);
+
+        await localStorage.SetItemAsync("productos", productos);
+
+    }
+    /*
+    protected override Task OnInitializedAsync()
+    {
+        producto = await localStorage.GetItemAsync<List<Venta>>("Productos");
+
+        if (producto == null)
+        {
+            producto = new List<Productos>();
+
+        }
+
+    }
+    */
+
+
+
+}
